@@ -1,0 +1,115 @@
+newman
+
+lab05
+
+□ Happy Path
+└ Setup - Add student
+  PUT http://localhost:3000/students/B230000001 [200 OK, 178B, 20ms]
+
+└ Setup - Add course
+  PUT http://localhost:3000/courses/CS201 [200 OK, 178B, 3ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [201 Created, 202B, 4ms]
+  √  Status code is 201
+  √  Result is OK
+  √  Registration ID is a number
+
+□ Inactive Student
+└ Setup - Add student
+  PUT http://localhost:3000/students/B230000001 [200 OK, 178B, 1ms]
+
+└ Setup - Add course
+  PUT http://localhost:3000/courses/CS201 [200 OK, 178B, 3ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [200 OK, 198B, 2ms]
+  √  The student is inactive -> Status code is 200
+  √  Result is ERROR_INACTIVE_STUDENT
+
+□ No Student
+└ Setup - Add course
+  PUT http://localhost:3000/courses/CS201 [200 OK, 178B, 1ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [200 OK, 192B, 2ms]
+  √  Student does not exist -> Status code is 200
+  √  Result is ERROR_NO_STUDENT
+
+□ No Prereqs
+└ Setup - Add student
+  PUT http://localhost:3000/students/B230000001 [200 OK, 178B, 2ms]
+
+└ Setup - Add course
+  PUT http://localhost:3000/courses/CS201 [200 OK, 178B, 2ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [200 OK, 223B, 1ms]
+  √  No prereq classes attended -> Status code is 200
+  √  Result is ERROR_PREREQUISITES
+
+□ Some Prereqs
+└ Setup - Add student
+  PUT http://localhost:3000/students/B230000001 [200 OK, 178B, 1ms]
+
+└ Setup - Add course
+  PUT http://localhost:3000/courses/CS201 [200 OK, 178B, 2ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [200 OK, 215B, 2ms]
+  √  Only one prereq class attended -> Status code is 200
+  √  Result is ERROR_PREREQUISITES
+
+□ No Course
+└ Setup - Add student
+  PUT http://localhost:3000/students/B230000001 [200 OK, 178B, 1ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [200 OK, 191B, 1ms]
+  √  Course does not exist -> Status code is 200
+  √  Result is ERROR_NO_COURSE
+
+□ No Course OR No Student
+└ Add registration
+  POST http://localhost:3000/registrations [200 OK, 192B, 2ms]
+  √  Neither course nor student exists -> Status code is 200
+  √  Result is ERROR_NO_COURSE or ERROR_NO_STUDENT
+
+□ Course and Student Empty
+└ Add registration
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 2ms]
+  √  Request is empty -> Status code is 400
+  √  Result is ERROR_BAD_REQUEST
+
+□ Wrong JSON
+└ Setup - Add student
+  PUT http://localhost:3000/students/B230000001 [200 OK, 178B, 2ms]
+
+└ Setup - Add course
+  PUT http://localhost:3000/courses/CS201 [200 OK, 178B, 1ms]
+
+└ Add registration
+  POST http://localhost:3000/registrations [400 Bad Request, 199B, 1ms]
+  √  Request is OK, but with faulty JSON -> Status code is 400
+  √  Result is ERROR_BAD_JSON
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              21 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │               9 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              19 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 1914ms                                  │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 504B (approx)                          │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 2ms [min: 1ms, max: 20ms, s.d.: 3ms] │
+└─────────────────────────────────────────────────────────────┘
+exit=0
