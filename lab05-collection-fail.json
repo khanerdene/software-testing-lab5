@@ -1,0 +1,113 @@
+{
+  "info": {
+    "_postman_id": "4d06d68e-5797-405d-887c-0c5edebdfbf3",
+    "name": "lab05 Fail",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44800906",
+    "_collection_link": "https://go.postman.co/collection/44800906-4d06d68e-5797-405d-887c-0c5edebdfbf3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Intentional Test Fail",
+      "item": [
+        {
+          "name": "Setup - Add student",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"active\",\r\n    \"coursesTaken\": [\r\n        \"CS101\",\r\n        \"CS102\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/B230000001",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "B230000001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Setup - Add course",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"prerequisites\": [\r\n        \"CS101\",\r\n        \"CS102\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/CS201",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "CS201"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add registration",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Result is OK\", function () {\r\n  const json = pm.response.json();\r\n  pm.expect(json.result).to.eql(\"OK\");\r\n});\r\n\r\npm.test(\"Registration ID is a number\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.registrationID).to.be.a('number');\r\n});\r\n\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"studentID\": \"B230000001\",\r\n    \"courseID\": \"CS201\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "localhost:3000"
+    }
+  ]
+}

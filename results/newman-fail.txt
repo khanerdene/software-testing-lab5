@@ -1,0 +1,44 @@
+newman
+
+lab05 Fail
+
+□ Intentional Test Fail
+└ Setup - Add student
+  PUT localhost:3000/students/B230000001 [200 OK, 178B, 27ms]
+
+└ Setup - Add course
+  PUT localhost:3000/courses/CS201 [200 OK, 178B, 3ms]
+
+└ Add registration
+  POST localhost:3000/registrations [201 Created, 202B, 1ms]
+  1. Status code is 200
+  √  Result is OK
+  √  Registration ID is a number
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │                3 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │                3 │                1 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 269ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 64B (approx)                             │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 10ms [min: 1ms, max: 27ms, s.d.: 11ms] │
+└───────────────────────────────────────────────────────────────┘
+
+[31m  # [39m[31m failure        [39m[31m detail                                                [39m
+[90m    [39m[90m                [39m[90m                                                       [39m
+ 1.  AssertionError  Status code is 200                                    
+                     expected response to have status code 200 but got 201 
+                     at assertion:0 in test-script                         
+                     inside "Intentional Test Fail / Add registration"     
+exit=1
